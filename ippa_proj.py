@@ -9,32 +9,24 @@ from PIL import Image
 
 def apply_sharpening(image):
     kernel = np.array([[0, -1, 0],
-                       [-1, 5,-1],
+                       [-1, 5, -1],
                        [0, -1, 0]])
     return cv2.filter2D(image, -1, kernel)
 
 def convert_to_black_and_white(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-def apply_brightening(image, value=30):
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    h, s, v = cv2.split(hsv)
-    v = np.clip(v + value, 0, 255)
-    final_hsv = cv2.merge((h, s, v))
-    return cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-
-# def apply_darkening(image, value=30):
-#     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-#     h, s, v = cv2.split(hsv)
-#     v = np.clip(v - value, 0, 255)
-#     final_hsv = cv2.merge((h, s, v))
-#     return cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-
 def apply_edge_detection(image):
     return cv2.Canny(image, 100, 200)
 
 def invert_colors(image):
     return cv2.bitwise_not(image)
+
+def apply_gaussian_blur(image, ksize=5):
+    return cv2.GaussianBlur(image, (ksize, ksize), 0)
+
+def apply_smoothing(image):
+    return cv2.bilateralFilter(image, d=9, sigmaColor=75, sigmaSpace=75)
 
 # Streamlit UI
 st.title("Image Enhancement & Processing")
@@ -54,31 +46,28 @@ if uploaded_file is not None:
     st.image(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), caption="Original Image", use_column_width=True)
 
     option = st.selectbox("Choose an enhancement technique", [
-        # "Noise Reduction",
         "Image Sharpening",
         "Color to Black & White",
-        "Brightening",
-        # "Darkening",
         "Edge Detection",
-        "Invert Colors"
+        "Invert Colors",
+        "Gaussian Blur",
+        "Smoothing"
     ])
 
     if st.button("Apply"):
-        if option == "Noise Reduction":
-            processed_image = apply_noise_reduction(image)
-        elif option == "Image Sharpening":
+        if option == "Image Sharpening":
             processed_image = apply_sharpening(image)
         elif option == "Color to Black & White":
             processed_image = convert_to_black_and_white(image)
-        elif option == "Brightening":
-            processed_image = apply_brightening(image)
-        elif option == "Darkening":
-            processed_image = apply_darkening(image)
         elif option == "Edge Detection":
             gray = convert_to_black_and_white(image)
             processed_image = apply_edge_detection(gray)
         elif option == "Invert Colors":
             processed_image = invert_colors(image)
+        elif option == "Gaussian Blur":
+            processed_image = apply_gaussian_blur(image)
+        elif option == "Smoothing":
+            processed_image = apply_smoothing(image)
 
         # Display processed image
         if len(processed_image.shape) == 2:
