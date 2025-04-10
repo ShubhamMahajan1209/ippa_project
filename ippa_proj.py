@@ -33,6 +33,9 @@ def apply_brightening(image, value=30):
 def apply_edge_detection(image):
     return cv2.Canny(image, 100, 200)
 
+def invert_colors(image):
+    return cv2.bitwise_not(image)
+
 # Streamlit UI
 st.title("Image Enhancement & Processing")
 
@@ -56,7 +59,8 @@ if uploaded_file is not None:
         "Color to Black & White",
         "Brightening",
         # "Darkening",
-        "Edge Detection"
+        "Edge Detection",
+        "Invert Colors"
     ])
 
     if st.button("Apply"):
@@ -73,7 +77,10 @@ if uploaded_file is not None:
         elif option == "Edge Detection":
             gray = convert_to_black_and_white(image)
             processed_image = apply_edge_detection(gray)
+        elif option == "Invert Colors":
+            processed_image = invert_colors(image)
 
+        # Display processed image
         if len(processed_image.shape) == 2:
             st.image(processed_image, caption="Processed Image", use_column_width=True, channels="GRAY")
         else:
