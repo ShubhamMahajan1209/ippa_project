@@ -81,22 +81,22 @@ if uploaded_file is not None:
         elif option == "Invert Colors":
             processed_image = invert_colors(image)
         elif option == "Gaussian Blur":
-            kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
-            processed_image = apply_gaussian_blur(image, ksize=kernel_size)
+            #kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
+            processed_image = apply_gaussian_blur(image, ksize=7)
         elif option == "Smoothing":
             processed_image = apply_smoothing(image)
         elif option == "Median Filter":
-            kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
-            processed_image = apply_median_filter(image, ksize=kernel_size)
+           # kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
+            processed_image = apply_median_filter(image, ksize=7)
         elif option == "Mean Filter":
-            kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
-            processed_image = apply_mean_filter(image, ksize=kernel_size)
+           # kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
+            processed_image = apply_mean_filter(image, ksize=7)
         elif option == "Min Filter":
-            kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
-            processed_image = apply_min_filter(image, ksize=kernel_size)
+            #kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
+            processed_image = apply_min_filter(image, ksize=7)
         elif option == "Max Filter":
-            kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
-            processed_image = apply_max_filter(image, ksize=kernel_size)
+            #kernel_size = st.slider("Kernel Size", min_value=3, max_value=15, step=2, value=3)
+            processed_image = apply_max_filter(image, ksize=7)
 
         # Show result
         if len(processed_image.shape) == 2:
